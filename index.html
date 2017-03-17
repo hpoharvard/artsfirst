@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-  <meta name="description" content="Harvard University, Arts First 2017">
+  <meta name="description" content="Harvard University, Arts First 2017. Web Mapping about Harvard
+  University 2017 Arts Festival">
+  <meta name="keywords" content="HTML, CSS, JavaScript">
+  <meta name="author" content="Giovanni Zambotti">
 
-  <title>Arts First 2017</title>
+  <title>Arts First 2017 Map</title>
 
   <!-- Calcite Maps Bootstrap -->
   <link rel="stylesheet" href="https://esri.github.io/calcite-maps/dist/css/calcite-maps-bootstrap.min-v0.3.css">
@@ -23,7 +26,7 @@
 
   <!-- Navbar -->
 
-  <nav class="navbar calcite-navbar navbar-fixed-top calcite-text-dark calcite-bg-dark" style="background-color: rgb(230, 0, 0);">
+  <nav class="navbar calcite-navbar navbar-fixed-top calcite-text-dark calcite-bg-dark" style="background-color: rgb(239, 62, 54);">
     <!-- Menu -->
     <div class="dropdown calcite-dropdown calcite-text-dark calcite-bg-light" role="presentation">
       <a class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
@@ -36,6 +39,7 @@
         </div>
       </a>
       <ul class="dropdown-menu">
+        <li><a role="button" data-target="#panelInfo" aria-haspopup="true"><span class="glyphicon glyphicon-info-sign"></span> Info</a></li>        
         <li><a role="button" data-target="#panelBasemaps" aria-haspopup="true"><span class="glyphicon glyphicon-th-large"></span> Basemaps</a></li>
         <li><a role="button" id="calciteToggleNavbar" aria-haspopup="true"><span class="glyphicon glyphicon-fullscreen"></span> Full Map</a></li>
       </ul>
@@ -66,13 +70,30 @@
 
   <!-- Panels -->
 
-  <div class="calcite-panels calcite-panels-right calcite-text-dark calcite-bg-dark panel-group" style="background-color: rgb(230, 0, 0);">
+  <div class="calcite-panels calcite-panels-right calcite-text-dark calcite-bg-dark panel-group" style="background-color: rgb(239, 62, 54);">
 
+    <!-- Info Panel -->
+    <div id="panelInfo" class="panel collapse in">
+      <div id="headingInfo" class="panel-heading" role="tab">
+        <div class="panel-title" style="background-color: rgb(239, 62, 54);">
+          <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseInfo"
+            aria-expanded="false" aria-controls="collapseInfo"><span class="glyphicon glyphicon-info-sign
+" aria-hidden="true"></span><span class="panel-label">Info</span></a>
+          <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelInfo"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
+        </div>
+      </div>
+      <div id="collapseInfo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingInfo">
+        <div class="panel-body">
+        <p> 
+        ARTS FIRST is Harvard's annual showcase of student and faculty creativity. Produced by the Office for the Arts, with support from the Board of Overseers of Harvard College, the festival is a public event with many free performances and activities for Harvard and community members of all ages. <a class="artsinfo" href="http://ofa.fas.harvard.edu/arts" target="_blank">More info here!</a>
+        </p>  
+        </div>
+      </div>
+    </div>
     <!-- Basemaps Panel -->
-
-    <div id="panelBasemaps" class="panel collapse in" >
+    <div id="panelBasemaps" class="panel collapse" >
       <div id="headingBasemaps" class="panel-heading" role="tab">
-        <div class="panel-title" style="background-color: rgb(230, 0, 0);">
+        <div class="panel-title" style="background-color: rgb(239, 62, 54);">
           <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseBasemaps"
             aria-expanded="false" aria-controls="collapseBasemaps"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span><span class="panel-label">Basemaps</span></a>
           <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelBasemaps"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
