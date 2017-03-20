@@ -40,7 +40,7 @@
       </a>
       <ul class="dropdown-menu">
         <li><a role="button" data-target="#panelInfo" aria-haspopup="true"><span class="glyphicon glyphicon-info-sign"></span> Info</a></li>        
-        <li><a role="button" data-target="#panelBasemaps" aria-haspopup="true"><span class="glyphicon glyphicon-th-large"></span> Basemaps</a></li>
+        <li><a role="button" data-target="#panelFilter" aria-haspopup="true"><span class="glyphicon glyphicon-filter"></span> Query</a></li>
         <li><a role="button" id="calciteToggleNavbar" aria-haspopup="true"><span class="glyphicon glyphicon-fullscreen"></span> Full Map</a></li>
       </ul>
     </div>
@@ -90,32 +90,35 @@
         </div>
       </div>
     </div>
-    <!-- Basemaps Panel -->
-    <div id="panelBasemaps" class="panel collapse" >
-      <div id="headingBasemaps" class="panel-heading" role="tab">
+    
+    <!-- Filter Panel -->
+    <div id="panelFilter" class="panel collapse" >
+      <div id="headingFilter" class="panel-heading" role="tab">
         <div class="panel-title" style="background-color: rgb(239, 62, 54);">
-          <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseBasemaps"
-            aria-expanded="false" aria-controls="collapseBasemaps"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span><span class="panel-label">Basemaps</span></a>
-          <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelBasemaps"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
+          <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapseFilter"
+            aria-expanded="false" aria-controls="collapseFilter"><span class="glyphicon glyphicon-filter" aria-hidden="true"></span><span class="panel-label">Filter</span></a>
+          <a class="panel-close" role="button" data-toggle="collapse" data-target="#panelFilter"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
         </div>
       </div>
-      <div id="collapseBasemaps" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingBasemaps">
+      <div id="collapseFilter" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingFilter">
         <div class="panel-body">
-          <select id="selectBasemapPanel" class="form-control">
-            <option value="streets-vector">Streets</option>
-            <option value="satellite">Satellite</option>
-            <option value="hybrid">Hybrid</option>
-            <option value="national-geographic">National Geographic</option>
-            <option value="topo-vector">Topographic</option>
-            <option value="gray-vector">Gray</option>
-            <option value="dark-gray-vector">Dark Gray</option>
-            <option value="osm">Open Street Map</option>
-            <option value="streets-night-vector">Streets Night</option>
-            <option value="streets-navigation-vector" selected="">Streets Navigation</option>
+          <select id="selectFilterPanel" class="form-control">
+            <option value="Concert">Concert</option>
+            <option value="Exhibition">Exhibition</option>
+            <option value="Installation">Installation</option>
+            <option value="Film">Film</option>
+            <option value="Make Art Station">Make Art Station</option>
+            <option value="Performance Fair">Performance Fair</option>
+            <option value="Public Art">Public Art</option>
+            <option value="Lecture">Lecture</option>
+            <option value="Tea Ceremony">Tea Ceremony</option>
+            <option value="Harvard Pow Wow">Harvard Pow Wow</option>
+            <option value="Theatrical Production">Theatrical Production</option>
+            <option value="Theatrical Performace">Theatrical Performace</option>  
           </select>
         </div>
       </div>
-    </div>
+    </div>    
   </div>
   <!-- /.calcite-panels -->
 
