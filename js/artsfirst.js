@@ -20,14 +20,15 @@ require([
       "dojo/domReady!"
     ], function(Map, MapView, FeatureLayer, SimpleRenderer, SimpleMarkerSymbol, SimpleFillSymbol, UniqueValueRenderer, Search, Popup, query) {
 
-      var artsLocationUrl = "https://hppm-dev.cadm.harvard.edu/arcgis/rest/services/ArtsFirst/ArtsFirst/MapServer/2";
+      var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/ArtsFirst/MapServer/2";
             
       // create the PopupTemplate
       var popupTemplate = {
         title: "{Name}",
         content: "<p><b> Address: {Address} </b></p>" +
           "<p> Room: {Room}</p>" +
-          "<p> Zone: {Zone}</p>" 
+          "<p> Zone: {Zone}</p>" +
+          "<p> Venue: {Venue_Type}" 
       };
       // create markers symbol
       var symConcert = new SimpleMarkerSymbol({        
@@ -204,6 +205,7 @@ require([
           },
         ]
       });
+
       
       /******************************************************************
        *
@@ -270,11 +272,20 @@ require([
       // set the definition expression on the artsLayer
       // to reflect the selection of the user
       function setArtsDefinitionExpression(newValue) {
-        artsLayer.definitionExpression = "Venue_Type = '" + newValue + "'";
+        if(newValue == "%"){
+          artsLayer.definitionExpression = "Venue_Type Like '" + newValue + "'";
           if (!artsLayer.visible) {
             artsLayer.visible = true;
           }
-        return queryForArtsLayerGeometries();
+          return queryForArtsLayerGeometries();
+        }
+        else{
+          artsLayer.definitionExpression = "Venue_Type = '" + newValue + "'";
+          if (!artsLayer.visible) {
+            artsLayer.visible = true;
+          }
+          return queryForArtsLayerGeometries();
+        }
       }
 
         // Get all the geometries of the artsLayer
