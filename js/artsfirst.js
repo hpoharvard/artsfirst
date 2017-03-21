@@ -38,9 +38,9 @@ require([
         color: "#a6cee3",
         style:"circle",
         outline: {
-          width: .6,
-          color: "black"
-          //color: [0,0,255,0.4]
+          width: 2.4,
+          //color: "black"
+          color: [166, 206, 227,0.4]
         }
       });
 
@@ -49,8 +49,9 @@ require([
         color: "#1f78b4",
         style:"circle",
         outline: {
-          width: .6,
-          color: "black"
+          width: 2.4,
+          //color: "black"
+          color: [31, 120, 180,0.4]
         }
       });
 
@@ -59,8 +60,9 @@ require([
         color: "#b2df8a",
         style:"circle",
         outline: {
-          width: .6,
-          color: "black"
+          width: 2.4,
+          //color: "black"
+          color: [178, 223, 138,0.4]
         }
       });
 
@@ -69,8 +71,9 @@ require([
         color: "#33a02c",
         style:"circle",
         outline: {
-          width: .6,
-          color: "black"
+          width: 2.4,
+          //color: "black"
+          color: [51, 160, 44,0.4]
         }
       });
 
@@ -79,8 +82,9 @@ require([
         color: "#fb9a99",
         style:"circle",
         outline: {
-          width: .6,
-          color: "black"
+          width: 2.4,
+          //color: "black"
+          color: [251, 154, 153,0.4]
         }
       });
 
@@ -89,8 +93,9 @@ require([
         color: "#e31a1c",
         style:"circle",
         outline: {
-          width: .6,
-          color: "black"
+          width: 2.4,
+          //color: "black"
+          color: [227, 26, 28,0.4]
         }
       });
 
@@ -99,8 +104,9 @@ require([
         color: "#fdbf6f",
         style:"circle",
         outline: {
-          width: .6,
-          color: "black"
+          width: 2.4,
+          //color: "black"
+          color: [253, 191, 111,0.4]
         }
       });
 
@@ -109,8 +115,9 @@ require([
         color: "#ff7f00",
         style:"circle",
         outline: {
-          width: .6,
-          color: "black"
+          width: 2.4,
+          //color: "black"
+          color: [255, 127, 0,0.4]
         }
       });
 
@@ -119,8 +126,9 @@ require([
         color: "#cab2d6",
         style:"circle",
         outline: {
-          width: .6,
-          color: "black"
+          width: 2.4,
+          //color: "black"
+          color: [202, 178, 214,0.4]
         }
       });
 
@@ -129,8 +137,9 @@ require([
         color: "#6a3d9a",
         style:"circle",
         outline: {
-          width: .6,
-          color: "black"
+          width: 2.4,
+          //color: "black"
+          color: [106, 61, 154,0.4]
         }
       });
 
@@ -139,8 +148,9 @@ require([
         color: "#ffff99",
         style:"circle",
         outline: {
-          width: .6,
-          color: "black"
+          width: 2.4,
+          //color: "black"
+          color: [255, 255, 153,0.4]
         }
       });
 
@@ -149,8 +159,9 @@ require([
         color: "#b15928",
         style:"circle",
         outline: {
-          width: .6,
-          color: "black"
+          width: 2.4,
+          //color: "black"
+          color: [177, 89, 40,0.4]
         }
       });
 
@@ -308,16 +319,17 @@ require([
             });
         }
 
+      // create a legend  
       var legend = new Legend({
           view: mapView,
+          height:'200px',
+          width: '200px',
           layerInfos: [
           {
             layer: artsLayer,
-            title: ""
+            title: "Arts Venue"
           }]
         });
-
-      mapView.ui.add(legend, "bottom-left");  
 
       // Search - add to navbar
       var searchWidget = new Search({
@@ -327,11 +339,19 @@ require([
       
       // change arstLayer value with panel
       query("#selectFilterPanel").on("change", function(e) {
-        //mapView.map.basemap = e.target.value;
-        //console.log(e.target.value)
         setArtsDefinitionExpression(e.target.value)
       });
  
+      query("#toggleLegend").on("click", function(){
+        if(document.getElementById("esri_widgets_Legend_0") == null){
+          mapView.ui.add(legend, "bottom-right");
+          // remove legend caption
+          document.getElementsByClassName('esri-legend__layer-caption')[0].remove();  
+        }
+        else{
+          mapView.ui.remove(legend, "bottom-right");  
+        }        
+      })
 
       /******************************************************************
        *

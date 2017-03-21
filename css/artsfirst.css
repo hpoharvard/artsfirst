@@ -9,3 +9,14 @@ html,body {
 	text-decoration: none;
 	color: #4c4c4c;
 }
+
+#artslegend{
+	color: #4c4c4c;
+	border: 1px solid yellow;
+	height:150px;
+	width: 200px;
+}
+
+.esri-view-height-xsmall .esri-ui-corner .esri-legend {
+    max-height: 440px;
+}
