@@ -8,6 +8,7 @@ require([
       "esri/renderers/UniqueValueRenderer",
       "esri/widgets/Search",
       "esri/widgets/Popup",
+      "esri/widgets/Legend",
       "dojo/query",
 
       // Bootstrap
@@ -18,7 +19,8 @@ require([
       "calcite-maps/calcitemaps-v0.3",
 
       "dojo/domReady!"
-    ], function(Map, MapView, FeatureLayer, SimpleRenderer, SimpleMarkerSymbol, SimpleFillSymbol, UniqueValueRenderer, Search, Popup, query) {
+    ], function(Map, MapView, FeatureLayer, SimpleRenderer, SimpleMarkerSymbol, 
+      SimpleFillSymbol, UniqueValueRenderer, Search, Popup, Legend, query) {
 
       var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/ArtsFirst/MapServer/2";
             
@@ -38,6 +40,7 @@ require([
         outline: {
           width: .6,
           color: "black"
+          //color: [0,0,255,0.4]
         }
       });
 
@@ -304,6 +307,17 @@ require([
               return artsGeometries;
             });
         }
+
+      var legend = new Legend({
+          view: mapView,
+          layerInfos: [
+          {
+            layer: artsLayer,
+            title: ""
+          }]
+        });
+
+      mapView.ui.add(legend, "bottom-left");  
 
       // Search - add to navbar
       var searchWidget = new Search({
