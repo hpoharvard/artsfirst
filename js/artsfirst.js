@@ -236,7 +236,7 @@ require([
       
       // Map
       var map = new Map({
-        basemap: "gray",
+        basemap: "topo",
         layers: [artsLayer]
       });
 
@@ -333,7 +333,23 @@ require([
 
       // Search - add to navbar
       var searchWidget = new Search({
-        view: mapView
+        view: mapView,
+        allPlaceholder: "",
+        sources: [{
+          featureLayer: new FeatureLayer({
+            url: "https://map.harvard.edu/arcgis/rest/services/HUMercator/MapServer/16",
+            popupTemplate: { // autocasts as new popupTemplate()
+              title: "{Primary_Building_Name}",
+              overwriteActions: true
+            }
+          }),
+          searchFields: ["Primary_Building_Name"],
+          displayField: "Primary_Building_Name",
+          exactMatch: false,
+          outFields: ["Primary_Building_Name"],
+          name: "Congressional Districts",
+          placeholder: "Building Name",
+        }],
       }, "searchWidgetDiv");
 
       
