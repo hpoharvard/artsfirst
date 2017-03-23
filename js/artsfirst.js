@@ -334,7 +334,7 @@ require([
       // Search - add to navbar
       var searchWidget = new Search({
         view: mapView,
-        allPlaceholder: "",
+        allPlaceholder: "Building or Parking",
         sources: [{
           featureLayer: new FeatureLayer({
             url: "https://map.harvard.edu/arcgis/rest/services/HUMercator/MapServer/16",
@@ -347,8 +347,22 @@ require([
           displayField: "Primary_Building_Name",
           exactMatch: false,
           outFields: ["Primary_Building_Name"],
-          name: "Congressional Districts",
+          name: "",
           placeholder: "Building Name",
+        },
+          {featureLayer: new FeatureLayer({
+              url: "https://map.harvard.edu/arcgis/rest/services/Parking/MapServer/0",
+              popupTemplate: { // autocasts as new popupTemplate()
+                title: "{Name}",
+                overwriteActions: true
+              }
+            }),
+            searchFields: ["Name"],
+            displayField: "Name",
+            exactMatch: false,
+            outFields: ["Name"],
+            name: "",
+            placeholder: "Name",
         }],
       }, "searchWidgetDiv");
 
