@@ -2,6 +2,7 @@ require([
       "esri/Map",
       "esri/views/MapView",
       "esri/layers/FeatureLayer",
+      "esri/layers/MapImageLayer",
       "esri/renderers/SimpleRenderer",
       "esri/symbols/SimpleMarkerSymbol",
       "esri/symbols/SimpleFillSymbol",
@@ -19,7 +20,7 @@ require([
       "calcite-maps/calcitemaps-v0.3",
 
       "dojo/domReady!"
-    ], function(Map, MapView, FeatureLayer, SimpleRenderer, SimpleMarkerSymbol, 
+    ], function(Map, MapView, FeatureLayer, MapImageLayer, SimpleRenderer, SimpleMarkerSymbol, 
       SimpleFillSymbol, UniqueValueRenderer, Search, Popup, Legend, query) {
 
       var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/ArtsFirst/MapServer/2";
@@ -27,10 +28,9 @@ require([
       // create the PopupTemplate
       var popupTemplate = {
         title: "{Name}",
-        content: "<p><b> Address: {Address} </b></p>" +
+        content: "<p>Address: {Address}</p>" +
           "<p> Room: {Room}</p>" +
-          "<p> Zone: {Zone}</p>" +
-          "<p> Venue: {Venue_Type}" 
+          "<p> Event Type: {Venue_Type}" 
       };
       // create markers symbol
       var symConcert = new SimpleMarkerSymbol({        
@@ -233,10 +233,14 @@ require([
         visible: true,
         renderer: aRenderer
       });
+      // add text labels
+      layerText = new MapImageLayer({
+        url: "https://map.harvard.edu/arcgis/rest/services/MapText/MapServer"
+      });
       
       // Map
       var map = new Map({
-        basemap: "topo",
+        basemap: "gray",
         layers: [artsLayer]
       });
 
