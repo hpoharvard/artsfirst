@@ -3,6 +3,7 @@ require([
       "esri/views/MapView",
       "esri/layers/FeatureLayer",
       "esri/layers/MapImageLayer",
+      "esri/layers/VectorTileLayer",
       "esri/renderers/SimpleRenderer",
       "esri/symbols/SimpleMarkerSymbol",
       "esri/symbols/SimpleFillSymbol",
@@ -20,18 +21,21 @@ require([
       "calcite-maps/calcitemaps-v0.3",
 
       "dojo/domReady!"
-    ], function(Map, MapView, FeatureLayer, MapImageLayer, SimpleRenderer, SimpleMarkerSymbol, 
+    ], function(Map, MapView, FeatureLayer, MapImageLayer, VectorTileLayer, SimpleRenderer, SimpleMarkerSymbol, 
       SimpleFillSymbol, UniqueValueRenderer, Search, Popup, Legend, query) {
 
-      var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/ArtsFirst/MapServer/2";
+      var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/artsfirst17/MapServer/0";
             
       // create the PopupTemplate
       var popupTemplate = {
-        title: "{Name}",
-        content: "<p>Address: {Address}</p>" +
-          "<p> Room: {Room}</p>" +
-          "<p> Event Type: {Venue_Type}" 
+        title: "{Venue}",
+        content: "<p>Address: {Address_1}</p>" +
+          "<p> Location: {Room_name_or_number__or_description_of_location_}</p>" +
+          "<p> Event Type: {Venue_1}" 
       };
+      
+      // to do change color and var name  
+
       // create markers symbol
       var symConcert = new SimpleMarkerSymbol({        
         size: 8,
@@ -167,54 +171,54 @@ require([
 
 
       var aRenderer = new UniqueValueRenderer({
-        field: "Venue_Type",
+        field: "Primary_Category",
         //defaultSymbol: new SimpleFillSymbol()
         uniqueValueInfos: [
           {
-            value: "Concert",  // value "Concert"
+            value: "Conference",  // value "Concert"
             symbol: symConcert  // will be assigned symConcert
           }, {
-            value: "Exhibition",  // value "Exhibition"
+            value: "Dance",  // value "Dance"
             symbol: symExhibition  // will be assigned symExbition
           }, 
           {
-            value: "Installation",  // value "Exhibition"
+            value: "Exhibitions",  // value "Exhibitions"
             symbol: symInstallation  // will be assigned symExbition
           },          
           {
-            value: "Film",  // value "Exhibition"
+            value: "Films",  // value "Film"
             symbol: symFilm  // will be assigned symExbition
           },
           {
-            value: "Make Art Station",  // value "Exhibition"
+            value: "Harvard Arts Medal Ceremony",  // value "Harvard Arts Medal Ceremony"
             symbol: symMakeArtStation  // will be assigned symExbition
           },
           {
-            value: "Performance Fair",  // value "Exhibition"
+            value: "Japanese Tea Ceremony",  // value "Japanese Tea Ceremony"
             symbol: symPerformanceFair // will be assigned symExbition
           },
           {
-            value: "Public Art",  // value "Exhibition"
+            value: "Make Art Stations",  // value "Make Art Stations"
             symbol: symPublicArt   // will be assigned symExbition
           },
           {
-            value: "Lecture",  // value "Exhibition"
+            value: "Music",  // value "Music"
             symbol: symLecture  // will be assigned symExbition
           },
           {
-            value: "Tea Ceremony",  // value "Exhibition"
+            value: "Performance Fair",  // value "Performance Fair"
             symbol: symTeaCeremony  // will be assigned symExbition
           },
           {
-            value: "Harvard Pow Wow",  // value "Exhibition"
+            value: "Pow Wow",  // value "Pow Wow"
             symbol: symHarvardPowWow  // will be assigned symExbition
           },
           {
-            value: "Theatrical Production",  // value "Exhibition"
+            value: "Public Art",  // value "Public Art"
             symbol: symTheatricalProduction  // will be assigned symExbition
           },
           {
-            value: "Theatrical Performance",  // value "Exhibition"
+            value: "Theater",  // value "Exhibition"
             symbol: symTheatricalPerformance  // will be assigned symExbition
           },
         ]
@@ -235,13 +239,20 @@ require([
       });
       // add text labels
       layerText = new MapImageLayer({
-        url: "https://map.harvard.edu/arcgis/rest/services/MapText/MapServer"
+        url: "https://webgis.labzone.dce.harvard.edu/arcgis/rest/services/art_label/MapServer"
+      });
+
+      // add vector tiles
+      var tileLyr = new VectorTileLayer({
+        url: "http://webgis.labzone.dce.harvard.edu/arcgis/rest/services/Hosted/art_vt/VectorTileServer"
       });
       
       // Map
       var map = new Map({
-        basemap: "gray",
-        layers: [artsLayer]
+        //basemap: "gray",
+        layers: [tileLyr, layerText, artsLayer]
+        //layers: [artsLayer]
+
       });
 
       // View
@@ -249,7 +260,7 @@ require([
         container: "mapViewDiv",
         map: map,
         center: [-71.116076, 42.37375],
-        zoom: 16,
+        zoom: 17,
         padding: {top: 50, bottom: 0}, 
         breakpoints: {xsmall: 768, small: 769, medium: 992, large: 1200}
       });
@@ -291,14 +302,14 @@ require([
       // to reflect the selection of the user
       function setArtsDefinitionExpression(newValue) {
         if(newValue == "%"){
-          artsLayer.definitionExpression = "Venue_Type Like '" + newValue + "'";
+          artsLayer.definitionExpression = "Primary_Category Like '" + newValue + "'";
           if (!artsLayer.visible) {
             artsLayer.visible = true;
           }
           return queryForArtsLayerGeometries();
         }
         else{
-          artsLayer.definitionExpression = "Venue_Type = '" + newValue + "'";
+          artsLayer.definitionExpression = "Primary_Category = '" + newValue + "'";
           if (!artsLayer.visible) {
             artsLayer.visible = true;
           }
