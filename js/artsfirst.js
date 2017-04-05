@@ -11,6 +11,7 @@ require([
       "esri/widgets/Search",
       "esri/widgets/Popup",
       "esri/widgets/Legend",
+      "esri/geometry/Extent",
       "dojo/query",
 
       // Bootstrap
@@ -22,7 +23,7 @@ require([
 
       "dojo/domReady!"
     ], function(Map, MapView, FeatureLayer, MapImageLayer, VectorTileLayer, SimpleRenderer, SimpleMarkerSymbol, 
-      SimpleFillSymbol, UniqueValueRenderer, Search, Popup, Legend, query) {
+      SimpleFillSymbol, UniqueValueRenderer, Search, Popup, Legend, Extent, query) {
 
       var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/artsfirst17/MapServer/0";
             
@@ -37,135 +38,146 @@ require([
       // to do change color and var name  
 
       // create markers symbol
-      var symConcert = new SimpleMarkerSymbol({        
-        size: 8,
-        color: "#a6cee3",
+      var symConference = new SimpleMarkerSymbol({        
+        size: 10,
+        color: "#ffff00",
         style:"circle",
         outline: {
           width: 2.4,
           //color: "black"
-          color: [166, 206, 227,0.4]
+          color: [255, 255, 0,0.4]
         }
       });
 
-      var symExhibition = new SimpleMarkerSymbol({
-        size: 8,
-        color: "#1f78b4",
+      var symDance = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#99ff33",
         style:"circle",
         outline: {
           width: 2.4,
           //color: "black"
-          color: [31, 120, 180,0.4]
+          color: [153, 255, 51,0.4]
         }
       });
 
-      var symInstallation = new SimpleMarkerSymbol({
-        size: 8,
-        color: "#b2df8a",
+      var symExhibitions = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#009900",
         style:"circle",
         outline: {
           width: 2.4,
           //color: "black"
-          color: [178, 223, 138,0.4]
+          color: [0,153,0,0.4]
         }
       });
 
-      var symFilm = new SimpleMarkerSymbol({
-        size: 8,
-        color: "#33a02c",
+      var symFilms = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#0000ff",
         style:"circle",
         outline: {
           width: 2.4,
           //color: "black"
-          color: [51, 160, 44,0.4]
+          color: [0, 0, 255,0.4]
         }
       });
 
-      var symMakeArtStation = new SimpleMarkerSymbol({
-        size: 8,
-        color: "#fb9a99",
+      var symArtsMedalCeremony = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#cc66ff",
         style:"circle",
         outline: {
           width: 2.4,
           //color: "black"
-          color: [251, 154, 153,0.4]
+          color: [204, 102, 255,0.4]
         }
       });
 
-      var symPerformanceFair = new SimpleMarkerSymbol({
-        size: 8,
-        color: "#e31a1c",
+      var symJTeaCeremony = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#990000",
         style:"circle",
         outline: {
           width: 2.4,
           //color: "black"
-          color: [227, 26, 28,0.4]
-        }
-      });
-
-      var symPublicArt = new SimpleMarkerSymbol({
-        size: 8,
-        color: "#fdbf6f",
-        style:"circle",
-        outline: {
-          width: 2.4,
-          //color: "black"
-          color: [253, 191, 111,0.4]
+          color: [153, 0, 0,0.4]
         }
       });
 
       var symLecture = new SimpleMarkerSymbol({
-        size: 8,
-        color: "#ff7f00",
+        size: 10,
+        color: "#ffb84d",
         style:"circle",
         outline: {
           width: 2.4,
           //color: "black"
-          color: [255, 127, 0,0.4]
+          color: [255, 184, 77,0.4]
         }
       });
 
-      var symTeaCeremony = new SimpleMarkerSymbol({
-        size: 8,
-        color: "#cab2d6",
+      var symMakeArtStations = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#e68a00",
         style:"circle",
         outline: {
           width: 2.4,
           //color: "black"
-          color: [202, 178, 214,0.4]
+          color: [230, 138, 0,0.4]
+        }
+      });
+      
+      var symMusic = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#ff99ff",
+        style:"circle",
+        outline: {
+          width: 2.4,
+          //color: "black"
+          color: [255, 153, 255,0.4]
         }
       });
 
-      var symHarvardPowWow = new SimpleMarkerSymbol({
-        size: 8,
-        color: "#6a3d9a",
+      var symPerformanceFair = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#ff3300",
         style:"circle",
         outline: {
           width: 2.4,
           //color: "black"
-          color: [106, 61, 154,0.4]
+          color: [255, 51, 0,0.4]
+        }
+      });
+      
+      var symPowWow = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#cccc00",
+        style:"circle",
+        outline: {
+          width: 2.4,
+          //color: "black"
+          color: [204, 204, 0,0.4]
         }
       });
 
-      var symTheatricalProduction = new SimpleMarkerSymbol({
-        size: 8,
-        color: "#ffff99",
+      var symPublicArt = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#993399",
         style:"circle",
         outline: {
           width: 2.4,
           //color: "black"
-          color: [255, 255, 153,0.4]
+          color: [153, 51, 153,0.4]
         }
       });
 
-      var symTheatricalPerformance = new SimpleMarkerSymbol({
-        size: 8,
-        color: "#b15928",
+      var symTheater = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#663300",
         style:"circle",
         outline: {
           width: 2.4,
           //color: "black"
-          color: [177, 89, 40,0.4]
+          color: [102, 51, 0,0.4]
         }
       });
 
@@ -176,50 +188,50 @@ require([
         uniqueValueInfos: [
           {
             value: "Conference",  // value "Concert"
-            symbol: symConcert  // will be assigned symConcert
+            symbol: symConference  // will be assigned symConcert
           }, {
             value: "Dance",  // value "Dance"
-            symbol: symExhibition  // will be assigned symExbition
+            symbol: symDance  // will be assigned symExbition
           }, 
           {
             value: "Exhibitions",  // value "Exhibitions"
-            symbol: symInstallation  // will be assigned symExbition
+            symbol: symExhibitions  // will be assigned symExbition
           },          
           {
             value: "Films",  // value "Film"
-            symbol: symFilm  // will be assigned symExbition
+            symbol: symFilms  // will be assigned symExbition
           },
           {
             value: "Harvard Arts Medal Ceremony",  // value "Harvard Arts Medal Ceremony"
-            symbol: symMakeArtStation  // will be assigned symExbition
+            symbol: symArtsMedalCeremony  // will be assigned symExbition
           },
           {
             value: "Japanese Tea Ceremony",  // value "Japanese Tea Ceremony"
-            symbol: symPerformanceFair // will be assigned symExbition
+            symbol: symJTeaCeremony // will be assigned symExbition
           },
           {
             value: "Make Art Stations",  // value "Make Art Stations"
-            symbol: symPublicArt   // will be assigned symExbition
+            symbol: symMakeArtStations   // will be assigned symExbition
           },
           {
             value: "Music",  // value "Music"
-            symbol: symLecture  // will be assigned symExbition
+            symbol: symMusic  // will be assigned symExbition
           },
           {
             value: "Performance Fair",  // value "Performance Fair"
-            symbol: symTeaCeremony  // will be assigned symExbition
+            symbol: symPerformanceFair  // will be assigned symExbition
           },
           {
             value: "Pow Wow",  // value "Pow Wow"
-            symbol: symHarvardPowWow  // will be assigned symExbition
+            symbol: symPowWow  // will be assigned symExbition
           },
           {
             value: "Public Art",  // value "Public Art"
-            symbol: symTheatricalProduction  // will be assigned symExbition
+            symbol: symPublicArt  // will be assigned symExbition
           },
           {
             value: "Theater",  // value "Exhibition"
-            symbol: symTheatricalPerformance  // will be assigned symExbition
+            symbol: symTheater  // will be assigned symExbition
           },
         ]
       });
@@ -260,13 +272,16 @@ require([
         container: "mapViewDiv",
         map: map,
         center: [-71.116076, 42.37375],
-        zoom: 17,
+        zoom: 16,
         padding: {top: 50, bottom: 0}, 
         breakpoints: {xsmall: 768, small: 769, medium: 992, large: 1200}
       });
 
+      
+
+
       // query all features from the artsLayer
-      mapView.then(function() {
+      mapView.then(function() {        
         return artsLayer.then(function() {
           var query = artsLayer.createQuery();
           return artsLayer.queryFeatures(query);
@@ -275,11 +290,12 @@ require([
 
       // return an array of all the values in the
       // Venue_Type field of the artsLayer
-      function getValues(response) {
-        var features = response.features;
+      function getValues(response) {        
+        var features = response.features;        
         var values = features.map(function(feature) {
-          return feature.attributes.Venue_Type;
+          return feature.attributes.Primary_Category;
         });
+
         return values;
       }
 
@@ -287,11 +303,11 @@ require([
       // the Venue_Type field of the artsLayer
       function getUniqueValues(values) {
         var uniqueValues = [];
-
         values.forEach(function(item, i) {
           if ((uniqueValues.length < 1 || uniqueValues.indexOf(item) ===
               -1) &&
             (item !== "")) {
+
             uniqueValues.push(item);
           }
         });
@@ -306,6 +322,7 @@ require([
           if (!artsLayer.visible) {
             artsLayer.visible = true;
           }
+
           return queryForArtsLayerGeometries();
         }
         else{
@@ -326,6 +343,9 @@ require([
 
           return artsLayer.queryFeatures(artsQuery)
             .then(function(response) {
+              console.log(myArray(response.features.length, response.features))
+              //console.log(response.features.length, response.features)
+              myArray(response.features.length, response.features)
               artsGeometries = response.features.map(function(feature) {
                 return feature.geometry;
               });
@@ -333,6 +353,29 @@ require([
               return artsGeometries;
             });
         }
+
+        // create extent
+        function myArray(len, arr){
+          var artsArrayX = [];
+          var artsArrayY = [];
+          for (i = 0; i < len; i++) {             
+            artsArrayX.push(arr[i].geometry.x)
+            artsArrayY.push(arr[i].geometry.y)
+          }          
+          artsArrayX.sort();
+          artsArrayY.sort();
+          var xMin = artsArrayX[0];
+          var yMin = artsArrayY[0];
+          var xMax = artsArrayX[artsArrayX.length - 1];
+          var yMax = artsArrayY[artsArrayY.length - 1];
+          //var mapView.extent = new Extent({xmin, ymin, xmax, ymax, spatialReference: 102100})
+          console.log(xMin, yMin, xMax, yMax)
+          //var newExtent = new Extent({xmin, ymin, xmax, ymax, spatialReference: 102100})
+          //console.log(newExtent)
+          //mapView.extent(-7916392.719900001, 5217089.140799999, -7916842.066199999, 5217296.634599999);
+          mapView.extent = new Extent({ xmin: xMin, ymin: yMin, xmax: xMax, ymax: yMax, spatialReference: 102100});
+          mapView.expand(1.5);
+        } 
 
       // create a legend  
       var legend = new Legend({
