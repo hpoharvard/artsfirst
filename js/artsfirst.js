@@ -256,7 +256,7 @@ require([
 
       // add vector tiles
       var tileLyr = new VectorTileLayer({
-        url: "http://webgis.labzone.dce.harvard.edu/arcgis/rest/services/Hosted/art_vt/VectorTileServer"
+        url: "https://webgis.labzone.dce.harvard.edu/arcgis/rest/services/Hosted/art_vt/VectorTileServer"
       });
       
       // Map
