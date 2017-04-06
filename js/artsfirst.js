@@ -261,9 +261,9 @@ require([
       
       // Map
       var map = new Map({
-        //basemap: "gray",
-        layers: [tileLyr, layerText, artsLayer]
-        //layers: [layerText, artsLayer]
+        basemap: "topo",
+        //layers: [tileLyr, layerText, artsLayer]
+        layers: [artsLayer]
 
       });
 
@@ -371,7 +371,8 @@ require([
           //console.log(newExtent)
           //mapView.extent(-7916392.719900001, 5217089.140799999, -7916842.066199999, 5217296.634599999);
           mapView.extent = new Extent({ xmin: xMin, ymin: yMin, xmax: xMax, ymax: yMax, spatialReference: 102100});
-          mapView.expand(1.5);
+          //mapView.expand(3);
+          //console.log(mapView.extent)
         } 
 
       // create a legend  
