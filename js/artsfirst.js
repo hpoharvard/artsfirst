@@ -29,7 +29,7 @@ require([
             
       // create the PopupTemplate
       var popupTemplate = {
-        title: "{Venue}",
+        title: "{Primary_Category}",
         content: "<p>Address: {Address_1}</p>" +
           "<p> Location: {Room_name_or_number__or_description_of_location_}</p>" +
           "<p> Event Type: {Venue_1}" 
@@ -263,7 +263,7 @@ require([
       var map = new Map({
         //basemap: "gray",
         layers: [tileLyr, layerText, artsLayer]
-        //layers: [artsLayer]
+        //layers: [layerText, artsLayer]
 
       });
 
@@ -276,10 +276,7 @@ require([
         padding: {top: 50, bottom: 0}, 
         breakpoints: {xsmall: 768, small: 769, medium: 992, large: 1200}
       });
-
       
-
-
       // query all features from the artsLayer
       mapView.then(function() {        
         return artsLayer.then(function() {
@@ -392,7 +389,7 @@ require([
       // Search - add to navbar
       var searchWidget = new Search({
         view: mapView,
-        allPlaceholder: "Building or Parking",
+        allPlaceholder: "Building",
         sources: [{
           featureLayer: new FeatureLayer({
             url: "https://map.harvard.edu/arcgis/rest/services/HUMercator/MapServer/16",
@@ -408,20 +405,20 @@ require([
           name: "",
           placeholder: "Building Name",
         },
-          {featureLayer: new FeatureLayer({
-              url: "https://map.harvard.edu/arcgis/rest/services/Parking/MapServer/0",
+          /*{featureLayer: new FeatureLayer({
+              url: "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/artsfirst17/MapServer/0",
               popupTemplate: { // autocasts as new popupTemplate()
-                title: "{Name}",
+                title: "{Primary_Category}",
                 overwriteActions: true
               }
             }),
-            searchFields: ["Name"],
-            displayField: "Name",
+            searchFields: ["Primary_Category"],
+            displayField: "Primary_Category",
             exactMatch: false,
-            outFields: ["Name"],
+            outFields: ["Primary_Category"],
             name: "",
-            placeholder: "Name",
-        }],
+            placeholder: "Primary_Category",
+        }*/],
       }, "searchWidgetDiv");
 
       
@@ -432,12 +429,12 @@ require([
  
       query("#toggleLegend").on("click", function(){
         if(document.getElementById("esri_widgets_Legend_0") == null){
-          mapView.ui.add(legend, "bottom-right");
+          mapView.ui.add(legend, "bottom-left");
           // remove legend caption
           document.getElementsByClassName('esri-legend__layer-caption')[0].remove();  
         }
         else{
-          mapView.ui.remove(legend, "bottom-right");  
+          mapView.ui.remove(legend, "bottom-left");  
         }        
       })
 
