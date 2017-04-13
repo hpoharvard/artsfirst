@@ -3,6 +3,7 @@ require([
       "esri/views/MapView",
       "esri/layers/FeatureLayer",
       "esri/layers/MapImageLayer",
+      "esri/layers/TileLayer",
       "esri/layers/VectorTileLayer",
       "esri/renderers/SimpleRenderer",
       "esri/symbols/SimpleMarkerSymbol",
@@ -22,17 +23,33 @@ require([
       "calcite-maps/calcitemaps-v0.3",
 
       "dojo/domReady!"
-    ], function(Map, MapView, FeatureLayer, MapImageLayer, VectorTileLayer, SimpleRenderer, SimpleMarkerSymbol, 
+    ], function(Map, MapView, FeatureLayer, MapImageLayer, TileLayer, VectorTileLayer, SimpleRenderer, SimpleMarkerSymbol, 
       SimpleFillSymbol, UniqueValueRenderer, Search, Popup, Legend, Extent, query) {
 
-      var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/artsfirst17/MapServer/0";
-            
+      var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/artsfirst17nad/MapServer/0";
+      
+      // add text labels
+      var layerText = new MapImageLayer({
+        //url: "https://webgis.labzone.dce.harvard.edu/arcgis/rest/services/art_label/MapServer"
+        url: "https://map.harvard.edu/arcgis/rest/services/MapText/MapServer"
+      });
+
+      // add vector tiles
+      var tileLyr = new VectorTileLayer({
+        url: "https://webgis.labzone.dce.harvard.edu/arcgis/rest/services/Hosted/art_vt/VectorTileServer"
+      });
+
+      var campusLyr = new TileLayer({
+          url: "https://map.harvard.edu/arcgis/rest/services/CampusBase/MapServer"
+      });
+
+
       // create the PopupTemplate
       var popupTemplate = {
         title: "{Primary_Category}",
-        content: "<p>Address: {Address_1}</p>" +
-          "<p> Location: {Room_name_or_number__or_description_of_location_}</p>" +
-          "<p> Event Type: {Venue_1}" 
+        content: "<p>Address: <b>{Address_1}</b></p>" +
+          "<p> Location: <b>{Room_name_or_number__or_description_of_location_}</b></p>" +
+          "<p> Event Type: <b>{Venue_1}</b>" 
       };
       
       // to do change color and var name  
@@ -249,21 +266,12 @@ require([
         visible: true,
         renderer: aRenderer
       });
-      // add text labels
-      layerText = new MapImageLayer({
-        url: "https://webgis.labzone.dce.harvard.edu/arcgis/rest/services/art_label/MapServer"
-      });
-
-      // add vector tiles
-      var tileLyr = new VectorTileLayer({
-        url: "https://webgis.labzone.dce.harvard.edu/arcgis/rest/services/Hosted/art_vt/VectorTileServer"
-      });
-      
+            
       // Map
       var map = new Map({
-        basemap: "topo",
-        //layers: [tileLyr, layerText, artsLayer]
-        layers: [artsLayer]
+        //basemap: "topo",
+        layers: [campusLyr, layerText, artsLayer]
+        //layers: [artsLayer]
 
       });
 
@@ -271,28 +279,38 @@ require([
       var mapView = new MapView({
         container: "mapViewDiv",
         map: map,
-        center: [-71.116076, 42.37375],
-        zoom: 16,
+        //center: [-112,38],
+        //center: {[{"x":759071.028,"y":2962334.283,"spatialReference":{"wkid":2249}}]}
+        //zoom: 12,
         padding: {top: 50, bottom: 0}, 
         breakpoints: {xsmall: 768, small: 769, medium: 992, large: 1200}
       });
-      
+
+      mapView.extent = new Extent({ 
+        xmin: 757405.7525065541,
+        ymin: 2959578.8458634764,
+        xmax: 761099.1968913078,
+        ymax: 2964072.5202750564,
+        spatialReference: 2249
+      });
+
+      // 757405.7525065541 2959578.8458634764 761099.1968913078 2964072.5202750564
+      //758096.5237628073 2962357.5873532295 758096.5237628073 2962357.5873532295
       // query all features from the artsLayer
-      mapView.then(function() {        
+      mapView.then(function() {         
         return artsLayer.then(function() {
           var query = artsLayer.createQuery();
           return artsLayer.queryFeatures(query);
         });
-      }).then(getValues).then(getUniqueValues)
+      }).then(getValues).then(getUniqueValues);
 
       // return an array of all the values in the
       // Venue_Type field of the artsLayer
       function getValues(response) {        
-        var features = response.features;        
+        var features = response.features;               
         var values = features.map(function(feature) {
           return feature.attributes.Primary_Category;
         });
-
         return values;
       }
 
@@ -304,7 +322,6 @@ require([
           if ((uniqueValues.length < 1 || uniqueValues.indexOf(item) ===
               -1) &&
             (item !== "")) {
-
             uniqueValues.push(item);
           }
         });
@@ -319,7 +336,6 @@ require([
           if (!artsLayer.visible) {
             artsLayer.visible = true;
           }
-
           return queryForArtsLayerGeometries();
         }
         else{
@@ -332,12 +348,9 @@ require([
       }
 
         // Get all the geometries of the artsLayer
-        // the createQuery() method creates a query
-        // object that respects the definitionExpression
-        // of the layer
+        
         function queryForArtsLayerGeometries() {
           var artsQuery = artsLayer.createQuery();
-
           return artsLayer.queryFeatures(artsQuery)
             .then(function(response) {
               console.log(myArray(response.features.length, response.features))
@@ -346,7 +359,6 @@ require([
               artsGeometries = response.features.map(function(feature) {
                 return feature.geometry;
               });
-
               return artsGeometries;
             });
         }
@@ -370,7 +382,7 @@ require([
           //var newExtent = new Extent({xmin, ymin, xmax, ymax, spatialReference: 102100})
           //console.log(newExtent)
           //mapView.extent(-7916392.719900001, 5217089.140799999, -7916842.066199999, 5217296.634599999);
-          mapView.extent = new Extent({ xmin: xMin, ymin: yMin, xmax: xMax, ymax: yMax, spatialReference: 102100});
+          mapView.extent = new Extent({ xmin: xMin, ymin: yMin, xmax: xMax, ymax: yMax, spatialReference: 2249});
           //mapView.expand(3);
           //console.log(mapView.extent)
         } 
@@ -385,7 +397,10 @@ require([
             layer: artsLayer,
             title: "Arts Venue"
           }]
-        });
+      });
+
+      //mapView.ui.add(legend, "bottom-left");
+
 
       // Search - add to navbar
       var searchWidget = new Search({
@@ -425,7 +440,8 @@ require([
       
       // change arstLayer value with panel
       query("#selectFilterPanel").on("change", function(e) {
-        setArtsDefinitionExpression(e.target.value)
+        setArtsDefinitionExpression(e.target.value);
+        console.log(mapView.extent)
       });
  
       query("#toggleLegend").on("click", function(){
@@ -470,5 +486,7 @@ require([
           mapView.popup.dockEnabled = false;
         }
       });
+
+
 
     });
