@@ -13,6 +13,7 @@ require([
       "esri/widgets/Popup",
       "esri/widgets/Legend",
       "esri/geometry/Extent",
+      "esri/symbols/TextSymbol",
       "dojo/query",
 
       // Bootstrap
@@ -24,9 +25,9 @@ require([
 
       "dojo/domReady!"
     ], function(Map, MapView, FeatureLayer, MapImageLayer, TileLayer, VectorTileLayer, SimpleRenderer, SimpleMarkerSymbol, 
-      SimpleFillSymbol, UniqueValueRenderer, Search, Popup, Legend, Extent, query) {
+      SimpleFillSymbol, UniqueValueRenderer, Search, Popup, Legend, Extent, TextSymbol, query) {
 
-      var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/artsfirst17nad/MapServer/0";
+      var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/artsfirst17/MapServer/0";
       
       // add text labels
       var layerText = new MapImageLayer({
@@ -266,12 +267,29 @@ require([
         visible: true,
         renderer: aRenderer
       });
-            
+
+      var tentLayer = new MapImageLayer({
+        url: "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/artsfirst17/MapServer",
+        sublayers: [{
+          id: 1,
+          labelsVisible: true,
+          labelingInfo: [{
+            labelExpression: "[name]",
+            labelPlacement: "always-horizontal",
+            symbol: new TextSymbol({
+              color: [ 0,0,0,0.85 ],
+              font: {size: 14}
+            }),      
+            }]
+          }]
+      });
+      
       // Map
       var map = new Map({
-        //basemap: "topo",
-        layers: [campusLyr, layerText, artsLayer]
-        //layers: [artsLayer]
+        basemap: "topo",
+        //layers: [campusLyr, layerText, artsLayer]
+        layers: [artsLayer, tentLayer]
+
 
       });
 
@@ -279,23 +297,12 @@ require([
       var mapView = new MapView({
         container: "mapViewDiv",
         map: map,
-        //center: [-112,38],
-        //center: {[{"x":759071.028,"y":2962334.283,"spatialReference":{"wkid":2249}}]}
-        //zoom: 12,
+        center: [-71.116076, 42.37375],
+        zoom: 18,
         padding: {top: 50, bottom: 0}, 
         breakpoints: {xsmall: 768, small: 769, medium: 992, large: 1200}
       });
 
-      mapView.extent = new Extent({ 
-        xmin: 757405.7525065541,
-        ymin: 2959578.8458634764,
-        xmax: 761099.1968913078,
-        ymax: 2964072.5202750564,
-        spatialReference: 2249
-      });
-
-      // 757405.7525065541 2959578.8458634764 761099.1968913078 2964072.5202750564
-      //758096.5237628073 2962357.5873532295 758096.5237628073 2962357.5873532295
       // query all features from the artsLayer
       mapView.then(function() {         
         return artsLayer.then(function() {
@@ -377,14 +384,9 @@ require([
           var yMin = artsArrayY[0];
           var xMax = artsArrayX[artsArrayX.length - 1];
           var yMax = artsArrayY[artsArrayY.length - 1];
-          //var mapView.extent = new Extent({xmin, ymin, xmax, ymax, spatialReference: 102100})
-          console.log(xMin, yMin, xMax, yMax)
-          //var newExtent = new Extent({xmin, ymin, xmax, ymax, spatialReference: 102100})
-          //console.log(newExtent)
-          //mapView.extent(-7916392.719900001, 5217089.140799999, -7916842.066199999, 5217296.634599999);
-          mapView.extent = new Extent({ xmin: xMin, ymin: yMin, xmax: xMax, ymax: yMax, spatialReference: 2249});
-          //mapView.expand(3);
-          //console.log(mapView.extent)
+          //console.log(xMin, yMin, xMax, yMax)
+          mapView.extent = new Extent({ xmin: xMin, ymin: yMin, xmax: xMax, ymax: yMax, spatialReference: 102100});
+          //mapView.expand(3);          
         } 
 
       // create a legend  
