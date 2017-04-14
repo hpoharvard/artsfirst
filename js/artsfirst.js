@@ -49,8 +49,8 @@ require([
       var popupTemplate = {
         title: "{Primary_Category}",
         content: "<p>Address: <b>{Address_1}</b></p>" +
-          "<p> Location: <b>{Room_name_or_number__or_description_of_location_}</b></p>" +
-          "<p> Event Type: <b>{Venue_1}</b>" 
+          "<p> Location: <b>{Venue_1}</b></p>"
+           
       };
       
       // to do change color and var name  
