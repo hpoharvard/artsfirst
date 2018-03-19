@@ -3,8 +3,8 @@ require([
       "esri/views/MapView",
       "esri/layers/FeatureLayer",
       "esri/layers/MapImageLayer",
-      "esri/layers/TileLayer",
-      "esri/layers/VectorTileLayer",
+      /*"esri/layers/TileLayer",
+      "esri/layers/VectorTileLayer",*/
       "esri/renderers/SimpleRenderer",
       "esri/symbols/SimpleMarkerSymbol",
       "esri/symbols/SimpleFillSymbol",
@@ -24,13 +24,13 @@ require([
       "calcite-maps/calcitemaps-v0.3",
 
       "dojo/domReady!"
-    ], function(Map, MapView, FeatureLayer, MapImageLayer, TileLayer, VectorTileLayer, SimpleRenderer, SimpleMarkerSymbol, 
+    ], function(Map, MapView, FeatureLayer, MapImageLayer, /*TileLayer, VectorTileLayer,*/ SimpleRenderer, SimpleMarkerSymbol, 
       SimpleFillSymbol, UniqueValueRenderer, Search, Popup, Legend, Extent, TextSymbol, query) {
 
       var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/artsfirst17/MapServer/0";
       
       // add text labels
-      var layerText = new MapImageLayer({
+      /*var layerText = new MapImageLayer({
         //url: "https://webgis.labzone.dce.harvard.edu/arcgis/rest/services/art_label/MapServer"
         url: "https://map.harvard.edu/arcgis/rest/services/MapText/MapServer"
       });
@@ -42,7 +42,7 @@ require([
 
       var campusLyr = new TileLayer({
           url: "https://map.harvard.edu/arcgis/rest/services/CampusBase/MapServer"
-      });
+      });*/
 
 
       // create the PopupTemplate
@@ -357,10 +357,12 @@ require([
         // Get all the geometries of the artsLayer
         
         function queryForArtsLayerGeometries() {
+          console.log("test!!!")
           var artsQuery = artsLayer.createQuery();
           return artsLayer.queryFeatures(artsQuery)
             .then(function(response) {
-              console.log(myArray(response.features.length, response.features))
+              
+              //console.log(myArray(response.features.length, response.features))
               //console.log(response.features.length, response.features)
               myArray(response.features.length, response.features)
               artsGeometries = response.features.map(function(feature) {
@@ -372,6 +374,7 @@ require([
 
         // create extent
         function myArray(len, arr){
+          //console.log(mapView.zoom)
           var artsArrayX = [];
           var artsArrayY = [];
           for (i = 0; i < len; i++) {             
@@ -386,7 +389,8 @@ require([
           var yMax = artsArrayY[artsArrayY.length - 1];
           //console.log(xMin, yMin, xMax, yMax)
           mapView.extent = new Extent({ xmin: xMin, ymin: yMin, xmax: xMax, ymax: yMax, spatialReference: 102100});
-          //mapView.expand(3);          
+          //mapView.expand(3);
+          if(mapView.zoom > 18){mapView.zoom = 18}          
         } 
 
       // create a legend  
@@ -442,8 +446,10 @@ require([
       
       // change arstLayer value with panel
       query("#selectFilterPanel").on("change", function(e) {
+        if(mapView.popup.visible === true) {mapView.popup.close();}
+        //console.log(mapView.popup.visible)
         setArtsDefinitionExpression(e.target.value);
-        console.log(mapView.extent)
+        //console.log(mapView.extent)
       });
  
       query("#toggleLegend").on("click", function(){
