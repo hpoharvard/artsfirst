@@ -27,7 +27,7 @@ require([
     ], function(Map, MapView, FeatureLayer, MapImageLayer, /*TileLayer, VectorTileLayer,*/ SimpleRenderer, SimpleMarkerSymbol, 
       SimpleFillSymbol, UniqueValueRenderer, Search, Popup, Legend, Extent, TextSymbol, query) {
 
-      var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/artsfirst17/MapServer/0";
+      var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/artsfirst/artsfirst2018/MapServer/0";
       
       // add text labels
       /*var layerText = new MapImageLayer({
@@ -269,7 +269,7 @@ require([
       });
 
       var tentLayer = new MapImageLayer({
-        url: "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/artsfirst17/MapServer",
+        url: "https://map.harvard.edu/arcgis/rest/services/artsfirst/artsfirst2017/MapServer",
         sublayers: [{
           id: 1,
           labelsVisible: true,
@@ -288,8 +288,8 @@ require([
       var map = new Map({
         basemap: "topo",
         //layers: [campusLyr, layerText, artsLayer]
-        layers: [artsLayer, tentLayer]
-
+        //layers: [artsLayer, tentLayer]
+        layers: [artsLayer]
 
       });
 
@@ -406,7 +406,7 @@ require([
       });
 
       //mapView.ui.add(legend, "bottom-left");
-
+      
 
       // Search - add to navbar
       var searchWidget = new Search({
