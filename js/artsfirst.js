@@ -290,7 +290,6 @@ require([
         //layers: [campusLyr, layerText, artsLayer]
         layers: [artsLayer, tentLayer]
         //layers: [artsLayer]
-
       });
 
       // View
