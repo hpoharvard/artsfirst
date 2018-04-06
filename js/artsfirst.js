@@ -269,7 +269,7 @@ require([
       });
 
       var tentLayer = new MapImageLayer({
-        url: "https://map.harvard.edu/arcgis/rest/services/artsfirst/artsfirst2017/MapServer",
+        url: "https://map.harvard.edu/arcgis/rest/services/artsfirst/artsfirst2018/MapServer",
         sublayers: [{
           id: 1,
           labelsVisible: true,
