@@ -288,8 +288,8 @@ require([
       var map = new Map({
         basemap: "topo",
         //layers: [campusLyr, layerText, artsLayer]
-        //layers: [artsLayer, tentLayer]
-        layers: [artsLayer]
+        layers: [artsLayer, tentLayer]
+        //layers: [artsLayer]
 
       });
 
@@ -374,7 +374,11 @@ require([
 
         // create extent
         function myArray(len, arr){
-          //console.log(mapView.zoom)
+          if(len === 1){
+            //console.log(arr[0].geometry)
+            mapView.center = [arr[0].geometry.longitude, arr[0].geometry.latitude];
+            mapView.zoom = 18;
+          }
           var artsArrayX = [];
           var artsArrayY = [];
           for (i = 0; i < len; i++) {             
@@ -383,6 +387,7 @@ require([
           }          
           artsArrayX.sort();
           artsArrayY.sort();
+          
           var xMin = artsArrayX[0];
           var yMin = artsArrayY[0];
           var xMax = artsArrayX[artsArrayX.length - 1];
