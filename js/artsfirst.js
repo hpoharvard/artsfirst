@@ -201,7 +201,7 @@ require([
         }
       });
 
-
+      // style a legend
       var aRenderer = new UniqueValueRenderer({
         field: "Primary_Category",
         //defaultSymbol: new SimpleFillSymbol()
