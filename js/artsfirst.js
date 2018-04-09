@@ -179,12 +179,14 @@ require([
 
       var symPublicArt = new SimpleMarkerSymbol({
         size: 10,
-        color: "#993399",
+        //color: "#993399",
+        color: "#ffff00",
         style:"circle",
         outline: {
           width: 2.4,
           //color: "black"
-          color: [153, 51, 153,0.4]
+          //color: [153, 51, 153,0.4]
+          color: [255, 255, 0,0.4]
         }
       });
 
@@ -204,10 +206,10 @@ require([
         field: "Primary_Category",
         //defaultSymbol: new SimpleFillSymbol()
         uniqueValueInfos: [
-          {
+          /*{
             value: "Conference",  // value "Concert"
             symbol: symConference  // will be assigned symConcert
-          }, {
+          },*/ {
             value: "Dance",  // value "Dance"
             symbol: symDance  // will be assigned symExbition
           }, 
@@ -219,10 +221,10 @@ require([
             value: "Films",  // value "Film"
             symbol: symFilms  // will be assigned symExbition
           },
-          {
+          /*{
             value: "Harvard Arts Medal Ceremony",  // value "Harvard Arts Medal Ceremony"
             symbol: symArtsMedalCeremony  // will be assigned symExbition
-          },
+          },*/
           {
             value: "Japanese Tea Ceremony",  // value "Japanese Tea Ceremony"
             symbol: symJTeaCeremony // will be assigned symExbition
@@ -239,10 +241,10 @@ require([
             value: "Performance Fair",  // value "Performance Fair"
             symbol: symPerformanceFair  // will be assigned symExbition
           },
-          {
+          /*{
             value: "Pow Wow",  // value "Pow Wow"
             symbol: symPowWow  // will be assigned symExbition
-          },
+          },*/
           {
             value: "Public Art",  // value "Public Art"
             symbol: symPublicArt  // will be assigned symExbition
@@ -297,7 +299,7 @@ require([
         container: "mapViewDiv",
         map: map,
         center: [-71.116076, 42.37375],
-        zoom: 18,
+        zoom: 16,
         padding: {top: 50, bottom: 0}, 
         breakpoints: {xsmall: 768, small: 769, medium: 992, large: 1200}
       });
@@ -309,7 +311,7 @@ require([
           return artsLayer.queryFeatures(query);
         });
       }).then(getValues).then(getUniqueValues);
-
+      
       // return an array of all the values in the
       // Venue_Type field of the artsLayer
       function getValues(response) {        
@@ -339,8 +341,10 @@ require([
       function setArtsDefinitionExpression(newValue) {
         if(newValue == "%"){
           artsLayer.definitionExpression = "Primary_Category Like '" + newValue + "'";
+          
           if (!artsLayer.visible) {
             artsLayer.visible = true;
+
           }
           return queryForArtsLayerGeometries();
         }
@@ -348,19 +352,21 @@ require([
           artsLayer.definitionExpression = "Primary_Category = '" + newValue + "'";
           if (!artsLayer.visible) {
             artsLayer.visible = true;
+
           }
           return queryForArtsLayerGeometries();
         }
       }
-
-        // Get all the geometries of the artsLayer
+     
+      // Get all the geometries of the artsLayer
         
         function queryForArtsLayerGeometries() {
-          console.log("test!!!")
+          //console.log("test!!!")
           var artsQuery = artsLayer.createQuery();
+          
           return artsLayer.queryFeatures(artsQuery)
             .then(function(response) {
-              
+              console.log(response)
               //console.log(myArray(response.features.length, response.features))
               //console.log(response.features.length, response.features)
               myArray(response.features.length, response.features)
@@ -373,6 +379,7 @@ require([
 
         // create extent
         function myArray(len, arr){
+          // for a single point center the map on top of it
           if(len === 1){
             //console.log(arr[0].geometry)
             mapView.center = [arr[0].geometry.longitude, arr[0].geometry.latitude];
@@ -394,7 +401,8 @@ require([
           //console.log(xMin, yMin, xMax, yMax)
           mapView.extent = new Extent({ xmin: xMin, ymin: yMin, xmax: xMax, ymax: yMax, spatialReference: 102100});
           //mapView.expand(3);
-          if(mapView.zoom > 18){mapView.zoom = 18}          
+          //alert(mapView.zoom)
+          if(mapView.zoom > 18){mapView.zoom = 17}          
         } 
 
       // create a legend  
