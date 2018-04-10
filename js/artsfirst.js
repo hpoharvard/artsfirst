@@ -403,7 +403,8 @@ require([
           //mapView.expand(3);
           //alert(mapView.zoom)
           //if(mapView.zoom > 18){mapView.zoom = 17}
-          mapView.zoom = mapView.zoom - 1;          
+          var newZoom = mapView.zoom;
+          mapView.zoom = newZoom - 1;          
           //alert(mapView.zoom)
         } 
 
