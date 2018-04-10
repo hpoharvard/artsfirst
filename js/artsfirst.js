@@ -299,7 +299,7 @@ require([
         container: "mapViewDiv",
         map: map,
         center: [-71.116076, 42.37375],
-        zoom: 16,
+        zoom: 17,
         padding: {top: 50, bottom: 0}, 
         breakpoints: {xsmall: 768, small: 769, medium: 992, large: 1200}
       });
@@ -402,7 +402,9 @@ require([
           mapView.extent = new Extent({ xmin: xMin, ymin: yMin, xmax: xMax, ymax: yMax, spatialReference: 102100});
           //mapView.expand(3);
           //alert(mapView.zoom)
-          if(mapView.zoom > 18){mapView.zoom = 17}          
+          //if(mapView.zoom > 18){mapView.zoom = 17}
+          mapView.zoom = mapView.zoom - 1;          
+          //alert(mapView.zoom)
         } 
 
       // create a legend  
