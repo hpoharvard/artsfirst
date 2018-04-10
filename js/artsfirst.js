@@ -15,7 +15,6 @@ require([
       "esri/geometry/Extent",
       "esri/symbols/TextSymbol",
       "dojo/query",
-
       // Bootstrap
       "bootstrap/Dropdown",
       "bootstrap/Collapse",
@@ -49,8 +48,7 @@ require([
       var popupTemplate = {
         title: "{Primary_Category}",
         content: "<p>Address: <b>{Address_1}</b></p>" +
-          "<p> Location: <b>{Venue_1}</b></p>"
-           
+          "<p> Location: <b>{Venue_1}</b></p>"          
       };
       
       // to do change color and var name  
@@ -282,8 +280,8 @@ require([
               color: [ 0,0,0,0.85 ],
               font: {size: 14}
             }),      
-            }]
           }]
+        }]
       });
       
       // Map
@@ -419,12 +417,11 @@ require([
       });
 
       //mapView.ui.add(legend, "bottom-left");
-      
-
+     
       // Search - add to navbar
       var searchWidget = new Search({
         view: mapView,
-        allPlaceholder: "Building",
+        allPlaceholder: "Building",        
         sources: [{
           featureLayer: new FeatureLayer({
             url: "https://map.harvard.edu/arcgis/rest/services/HUMercator/MapServer/16",
@@ -439,23 +436,22 @@ require([
           outFields: ["Primary_Building_Name"],
           name: "",
           placeholder: "Building Name",
-        },
-          /*{featureLayer: new FeatureLayer({
-              url: "https://map.harvard.edu/arcgis/rest/services/ArtsFirst/artsfirst17/MapServer/0",
-              popupTemplate: { // autocasts as new popupTemplate()
-                title: "{Primary_Category}",
-                overwriteActions: true
-              }
-            }),
-            searchFields: ["Primary_Category"],
-            displayField: "Primary_Category",
-            exactMatch: false,
-            outFields: ["Primary_Category"],
-            name: "",
-            placeholder: "Primary_Category",
-        }*/],
+          resultSymbol: {
+            type: "simple-fill",  // autocasts as SimpleLineSymbol()
+            color: [255, 255, 255, 0.5],
+            outline: { // autocasts as new SimpleLineSymbol()
+              color: [36, 133, 255],
+              width: 2
+            }
+          }
+          },
+          ],         
       }, "searchWidgetDiv");
 
+      searchWidget.viewModel.on("select-result", function(event){
+        //console.log("Search input textbox was cleared.", mapView.zoom);
+        mapView.zoom = 18;
+      });
       
       // change arstLayer value with panel
       query("#selectFilterPanel").on("change", function(e) {
