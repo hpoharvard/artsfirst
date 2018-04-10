@@ -507,7 +507,4 @@ require([
           mapView.popup.dockEnabled = false;
         }
       });
-
-
-
-    });
+});
