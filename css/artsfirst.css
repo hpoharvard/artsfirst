@@ -23,6 +23,6 @@ html,body {
 
 .calcite-panels.calcite-bg-light input, .calcite-panels.calcite-bg-light select, .calcite-panels.calcite-bg-light textarea {
     background-color: transparent;
-    border: 1px solid #fff;
-    color: #fff;
+    border: 1px solid #595959;
+    color: #595959;
 }

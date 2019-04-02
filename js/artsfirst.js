@@ -303,8 +303,9 @@ require([
       });
 
       // query all features from the artsLayer
-      mapView.then(function() {         
-        return artsLayer.then(function() {
+      //mapView.then(function() {         
+      mapView.when(function() {           
+        return artsLayer.when(function() {
           var query = artsLayer.createQuery();
           return artsLayer.queryFeatures(query);
         });
