@@ -26,7 +26,7 @@ require([
     ], function(Map, MapView, FeatureLayer, MapImageLayer, /*TileLayer, VectorTileLayer,*/ SimpleRenderer, SimpleMarkerSymbol, 
       SimpleFillSymbol, UniqueValueRenderer, Search, Popup, Legend, Extent, TextSymbol, query) {
 
-      var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/artsfirst/artsfirst2018/MapServer/0";
+      var artsLocationUrl = "https://map.harvard.edu/arcgis/rest/services/artsfirst/artsfirst2019/MapServer/0";
       
       // add text labels
       /*var layerText = new MapImageLayer({
@@ -109,6 +109,17 @@ require([
         }
       });
 
+      var symHarvardwood = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#00ffff",
+        style:"circle",
+        outline: {
+          width: 2.4,
+          //color: "black"
+          color: [142, 255, 255,0.4]
+        }
+      });
+
       var symJTeaCeremony = new SimpleMarkerSymbol({
         size: 10,
         color: "#990000",
@@ -188,6 +199,28 @@ require([
         }
       });
 
+      var symStorytelling = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#6a3d9a",
+        style:"circle",
+        outline: {
+          width: 2.4,
+          //color: "black"
+          color: [102, 51, 0,0.4]
+        }
+      });
+     
+      var symWorldTeaCeremony = new SimpleMarkerSymbol({
+        size: 10,
+        color: "#8e8d8d",
+        style:"circle",
+        outline: {
+          width: 2.4,
+          //color: "black"
+          color: [99, 99, 99,0.4]
+        }
+      });
+
       var symTheater = new SimpleMarkerSymbol({
         size: 10,
         color: "#663300",
@@ -219,10 +252,14 @@ require([
             value: "Films",  // value "Film"
             symbol: symFilms  // will be assigned symExbition
           },
-          /*{
+          {
             value: "Harvard Arts Medal Ceremony",  // value "Harvard Arts Medal Ceremony"
             symbol: symArtsMedalCeremony  // will be assigned symExbition
-          },*/
+          },
+          {
+            value: "Harvardwood Mixer",  // value "Harvardwood Mixer"
+            symbol: symHarvardwood  // will be assigned symHarvardwood
+          },
           {
             value: "Japanese Tea Ceremony",  // value "Japanese Tea Ceremony"
             symbol: symJTeaCeremony // will be assigned symExbition
@@ -239,18 +276,26 @@ require([
             value: "Performance Fair",  // value "Performance Fair"
             symbol: symPerformanceFair  // will be assigned symExbition
           },
-          /*{
+          {
             value: "Pow Wow",  // value "Pow Wow"
             symbol: symPowWow  // will be assigned symExbition
-          },*/
+          },
           {
             value: "Public Art",  // value "Public Art"
             symbol: symPublicArt  // will be assigned symExbition
           },
           {
-            value: "Theater",  // value "Exhibition"
-            symbol: symTheater  // will be assigned symExbition
+            value: "Storytelling",  // value "Public Art"
+            symbol: symStorytelling  // will be assigned symExbition
           },
+          {
+            value: "Theater",  // value "Theater"
+            symbol: symTheater  // will be assigned symTheater
+          },
+          {
+            value: "World Tea Ceremony",  // value "Exhibition"
+            symbol: symWorldTeaCeremony  // will be assigned symExbition
+          }
         ]
       });
 
@@ -269,7 +314,7 @@ require([
       });
 
       var tentLayer = new MapImageLayer({
-        url: "https://map.harvard.edu/arcgis/rest/services/artsfirst/artsfirst2018/MapServer",
+        url: "https://map.harvard.edu/arcgis/rest/services/artsfirst/artsfirst2019/MapServer",
         sublayers: [{
           id: 1,
           labelsVisible: true,
