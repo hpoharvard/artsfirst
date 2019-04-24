@@ -508,15 +508,25 @@ require([
       });
  
       query("#toggleLegend").on("click", function(){
+        console.log("Legend Toggle")
+        //var f1 = document.getElementsByClassName('esri-legend__layer-table esri-legend__layer-table--size-ramp');
+        console.log(document.getElementsByClassName('esri-legend__service'))
+
         if(document.getElementById("esri_widgets_Legend_0") == null){
           mapView.ui.add(legend, "bottom-left");
           // remove legend caption
-          document.getElementsByClassName('esri-legend__layer-caption')[0].remove();  
+          //var f1 = document.getElementsByClassName('esri-legend__layer-caption')[0];
+          //console.log(f1)
+          //f1.innerHTML = "";
+          document.getElementsByClassName('esri-legend__layer-caption')[0].style.display = 'none';  
         }
         else{
           mapView.ui.remove(legend, "bottom-left");  
         }        
       })
+
+      
+      
 
       /******************************************************************
        *
